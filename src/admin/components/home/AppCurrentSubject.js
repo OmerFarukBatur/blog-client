@@ -5,7 +5,7 @@ import ReactApexChart from 'react-apexcharts';
 import { styled } from '@mui/material/styles';
 import { Card, CardHeader } from '@mui/material';
 // components
-import { BaseOptionChart } from '../../../components/chart';
+import { BaseOptionChart } from '../../../common/chart';
 
 // ----------------------------------------------------------------------
 

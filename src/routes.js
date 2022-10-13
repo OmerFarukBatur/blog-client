@@ -1,30 +1,27 @@
 import { Navigate, useRoutes } from 'react-router-dom';
 // layouts
-import DashboardLayout from './layouts/dashboard';
-import LogoOnlyLayout from './layouts/LogoOnlyLayout';
-//
-import Blog from './pages/Blog';
-import User from './pages/User';
-import Login from './pages/Login';
-import NotFound from './pages/Page404';
-import Register from './pages/Register';
-import Products from './pages/Products';
-import DashboardApp from './pages/DashboardApp';
 import AdminLayout from './admin/layouts/baseLayout';
+import LogoOnlyLayout from './admin/layouts/LogoOnlyLayout';
+//
+import Login from './admin/pages/Login';
+import NotFound from './admin/pages/Page404';
+import Register from './admin/pages/Register';
+
 import Home from './admin/pages/home';
+import BlogPost from './admin/pages/blog';
+import AddNewPost from './admin/pages/add-post';
 
 // ----------------------------------------------------------------------
 
 export default function Router() {
   return useRoutes([
     {
-      path: '/dashboard',
-      element: <DashboardLayout />,
+      path: '/baselayout',
+      element: <AdminLayout />,
       children: [
-        { path: 'app', element: <DashboardApp /> },
-        { path: 'user', element: <User /> },
-        { path: 'products', element: <Products /> },
-        { path: 'blog', element: <Blog /> },
+        { path: 'home', element: <Home /> },
+        { path: 'blog', element: <BlogPost /> },
+        { path: 'add-new-post', element: <AddNewPost /> }
       ],
     },
     {
@@ -39,7 +36,7 @@ export default function Router() {
       path: '/',
       element: <LogoOnlyLayout />,
       children: [
-        { path: '/', element: <Navigate to="/dashboard/app" /> },
+        { path: '/', element: <Navigate to="/baselayout/home" /> },
         { path: '404', element: <NotFound /> },
         { path: '*', element: <Navigate to="/404" /> },
       ],
@@ -47,16 +44,6 @@ export default function Router() {
     {
       path: '*',
       element: <Navigate to="/404" replace />,
-    },
-    {
-      path: '/baselayout',
-      element: <AdminLayout />,
-      children: [
-        { path: 'home', element: <Home /> },
-        { path: 'user', element: <User /> },
-        { path: 'products', element: <Products /> },
-        { path: 'blog', element: <Blog /> },
-      ],
     },
   ]);
 }

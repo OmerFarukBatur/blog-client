@@ -7,24 +7,19 @@ const getIcon = (name) => <Iconify icon={name} width={22} height={22} />;
 
 const navConfig = [
   {
-    title: 'dashboard',
+    title: 'blog dashboard',
     path: '/baselayout/home',
-    icon: getIcon('eva:pie-chart-2-fill'),
+    icon: getIcon('ant-design:home-filled'),
   },
   {
-    title: 'user',
-    path: '/dashboard/user',
-    icon: getIcon('eva:people-fill'),
+    title: 'blog posts',
+    path: '/baselayout/blog',
+    icon: getIcon('file-icons:postscript'),
   },
   {
-    title: 'product',
-    path: '/dashboard/products',
-    icon: getIcon('eva:shopping-bag-fill'),
-  },
-  {
-    title: 'blog',
-    path: '/dashboard/blog',
-    icon: getIcon('eva:file-text-fill'),
+    title: 'add new post',
+    path: '/baselayout/add-new-post',
+    icon: getIcon('ant-design:file-add-twotone'),
   },
   {
     title: 'login',

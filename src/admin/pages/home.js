@@ -24,7 +24,7 @@ export default function Home() {
   const theme = useTheme();
 
   return (
-    <Page title="Dashboard">
+    <Page title="Blog Dashboard">
       <Container maxWidth="xl">
         <Typography variant="h4" sx={{ mb: 5 }}>
           Hi, Welcome back
@@ -32,19 +32,23 @@ export default function Home() {
 
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Weekly Sales" total={714000} icon={'ant-design:android-filled'} />
+            <AppWidgetSummary title="POSTS" total={714000} icon={'file-icons:postscript'} />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="New Users" total={1352831} color="info" icon={'ant-design:apple-filled'} />
+            <AppWidgetSummary title="PAGES" total={1352831} color="info" icon={'emojione-v1:pages'} />
           </Grid>
 
-          <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Item Orders" total={1723315} color="warning" icon={'ant-design:windows-filled'} />
+          <Grid item xs={12} sm={6} md={2}>
+            <AppWidgetSummary title="COMMENTS" total={1723315} color="warning" icon={'ant-design:comment-outlined'} />
           </Grid>
 
-          <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Bug Reports" total={234} color="error" icon={'ant-design:bug-filled'} />
+          <Grid item xs={12} sm={6} md={2}>
+            <AppWidgetSummary title="NEW CUSTOMERS" total={234} color="error" icon={'raphael:customer'} />
+          </Grid>
+
+          <Grid item xs={12} sm={6} md={2}>
+            <AppWidgetSummary title="SUBSCRIBERS" total={234} color="error" icon={'ant-design:bug-filled'} />
           </Grid>
 
           <Grid item xs={12} md={6} lg={8}>

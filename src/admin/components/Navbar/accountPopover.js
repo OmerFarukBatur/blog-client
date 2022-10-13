@@ -6,7 +6,7 @@ import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton } from '@
 // components
 import MenuPopover from '../common/MenuPopover';
 // mocks_
-import account from '../common/account';
+import account from '../../../contracts/account';
 
 // ----------------------------------------------------------------------
 
