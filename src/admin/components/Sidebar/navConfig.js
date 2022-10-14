@@ -36,6 +36,11 @@ const navConfig = [
     path: '/404',
     icon: getIcon('eva:alert-triangle-fill'),
   },
+  {
+    title: 'user',
+    path: '/baselayout/users',
+    icon: getIcon('clarity:users-solid'),
+  },
 ];
 
 export default navConfig;

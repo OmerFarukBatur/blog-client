@@ -10,6 +10,7 @@ import Register from './admin/pages/Register';
 import Home from './admin/pages/home';
 import BlogPost from './admin/pages/blog';
 import AddNewPost from './admin/pages/add-post';
+import User from './admin/pages/User';
 
 // ----------------------------------------------------------------------
 
@@ -21,7 +22,8 @@ export default function Router() {
       children: [
         { path: 'home', element: <Home /> },
         { path: 'blog', element: <BlogPost /> },
-        { path: 'add-new-post', element: <AddNewPost /> }
+        { path: 'add-new-post', element: <AddNewPost /> },
+        { path: 'users', element: <User /> }
       ],
     },
     {
@@ -36,7 +38,7 @@ export default function Router() {
       path: '/',
       element: <LogoOnlyLayout />,
       children: [
-        { path: '/', element: <Navigate to="/baselayout/home" /> },
+        { path: '/', element: <Navigate to="/login" /> },
         { path: '404', element: <NotFound /> },
         { path: '*', element: <Navigate to="/404" /> },
       ],

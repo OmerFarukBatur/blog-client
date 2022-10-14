@@ -9,7 +9,6 @@ import Page from '../components/common/Page';
 import Logo from '../components/common/Logo';
 // sections
 import { LoginForm } from '../components/auth/login';
-import AuthSocial from '../components/auth/AuthSocial';
 
 // ----------------------------------------------------------------------
 
@@ -67,14 +66,14 @@ export default function Login() {
         <HeaderStyle>
           <Logo />
 
-          {smUp && (
+          {/* {smUp && (
             <Typography variant="body2" sx={{ mt: { md: -2 } }}>
               Don’t have an account? {''}
               <Link variant="subtitle2" component={RouterLink} to="/register">
                 Get started
               </Link>
             </Typography>
-          )}
+          )} */}
         </HeaderStyle>
 
         {mdUp && (
@@ -88,13 +87,9 @@ export default function Login() {
 
         <Container maxWidth="sm">
           <ContentStyle>
-            <Typography variant="h4" gutterBottom>
-              Sign in to Minimal
+            <Typography variant="h4" align='center' marginBottom={10} gutterBottom>
+              Login
             </Typography>
-
-            <Typography sx={{ color: 'text.secondary', mb: 5 }}>Enter your details below.</Typography>
-
-            <AuthSocial />
 
             <LoginForm />
 
