@@ -39,9 +39,14 @@ export default function LoginForm() {
 
   
   const onSubmit = async () => {
-    console.log( await userLogin(defaultValues.email,defaultValues.password));
-    
-    navigate('/baselayout/home', { replace: true });
+    // const Email = methods.getValues("email");
+    // const Password = methods.getValues("password");
+    // console.log( await userLogin({Email,Password}));
+
+    const response = await userLogin(methods.getValues());    
+    if(response.status === 200)
+      navigate('/baselayout/home', { replace: true });
+
   };
 
   const navigateRegister = function() {
@@ -57,11 +62,11 @@ export default function LoginForm() {
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={3}>
-        <RHFTextField name="email" label="Email address" />
+        <RHFTextField name="email" label="Email"  />
 
         <RHFTextField
-          name="password"
-          label="Password"
+          name="password" 
+          label="Şifre"
           type={showPassword ? 'text' : 'password'}
           InputProps={{
             endAdornment: (

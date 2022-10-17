@@ -1,4 +1,3 @@
-import * as Yup from 'yup';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 // form
@@ -7,9 +6,13 @@ import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
 import { Stack, IconButton, InputAdornment } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
+
+import { userRegister } from '../../../../contracts/admin-http-service';
 // components
 import Iconify from '../../common/Iconify';
 import { FormProvider, RHFTextField } from '../../hook-form';
+import RegisterSchema from './register-validation';
+
 
 // ----------------------------------------------------------------------
 
@@ -17,19 +20,14 @@ export default function RegisterForm() {
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
-
-  const RegisterSchema = Yup.object().shape({
-    firstName: Yup.string().required('First name required'),
-    lastName: Yup.string().required('Last name required'),
-    email: Yup.string().email('Email must be a valid email address').required('Email is required'),
-    password: Yup.string().required('Password is required'),
-  });
+  const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
 
   const defaultValues = {
     firstName: '',
     lastName: '',
     email: '',
     password: '',
+    passwordConfirm: '',
   };
 
   const methods = useForm({
@@ -43,22 +41,24 @@ export default function RegisterForm() {
   } = methods;
 
   const onSubmit = async () => {
-    navigate('/dashboard', { replace: true });
+    const response = await userRegister(methods.getValues());
+    if (response.status === 200)
+      navigate('/login', { replace: true });
   };
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={3}>
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-          <RHFTextField name="firstName" label="First name" />
-          <RHFTextField name="lastName" label="Last name" />
+          <RHFTextField name="firstName" label="Ad" />
+          <RHFTextField name="lastName" label="Soyad" />
         </Stack>
 
-        <RHFTextField name="email" label="Email address" />
+        <RHFTextField name="email" label="Email " />
 
         <RHFTextField
           name="password"
-          label="Password"
+          label="Şifre"
           type={showPassword ? 'text' : 'password'}
           InputProps={{
             endAdornment: (
@@ -71,8 +71,23 @@ export default function RegisterForm() {
           }}
         />
 
+        <RHFTextField
+          name="passwordConfirm"
+          label="Şifre Tekrar"
+          type={showPasswordConfirm ? 'text' : 'passwordConfirm'}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton edge="end" onClick={() => setShowPasswordConfirm(!showPasswordConfirm)}>
+                  <Iconify icon={showPasswordConfirm ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+
         <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
-          Register
+          Kayıt Ol
         </LoadingButton>
       </Stack>
     </FormProvider>
