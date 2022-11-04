@@ -1,0 +1,25 @@
+.rdw-storybook-editor {
+    border: 1px solid silver;
+    padding: 5px;
+    border-radius: 2px;
+    height:600px;
+    width: 1300px;
+    display: block;
+  }
+
+  .rdw-storybook-custom-option {
+    background-color: cadetblue;
+    border: 2px solid black;
+
+  }
+  .rdw-storybook-custom-option > button {
+    background-color: brown;
+    
+  }
+
+  .rdw-storybook-wapper{
+    background-color: whitesmoke;
+  }
+
+
+  
