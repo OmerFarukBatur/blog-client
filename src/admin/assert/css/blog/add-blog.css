@@ -2,15 +2,15 @@
     border: 1px solid silver;
     padding: 5px;
     border-radius: 2px;
-    height:817px;
-    width: 1106px;
+    height:650px;
+    width: 1090px;
     display: block;
   }
 
   .rdw-storybook-custom-option {
     background-color: cadetblue;
     border: 2px solid black;
-
+    width: 1090px;
   }
   .rdw-storybook-custom-option > button {
     background-color: brown;
@@ -18,7 +18,7 @@
   }
 
   .rdw-storybook-wapper{
-    background-color: whitesmoke;
+    background-color: white;
   }
 
 

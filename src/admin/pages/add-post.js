@@ -7,22 +7,16 @@ import "../assert/css/blog/add-blog.css";
 
 import 'react-quill/dist/quill.snow.css';
 
-import ReactQuill from 'react-quill';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { LoadingButton } from '@mui/lab';
 import { addPost } from '../../contracts/admin-http-service';
 
 // components
 import Page from '../components/common/Page';
-import Iconify from '../components/common/Iconify';
-import { BlogPostCard, BlogPostsSort, BlogPostsSearch } from '../components/blog';
 // mock
-import POSTS from '../../contracts/blog';
 import AddPostSchema from '../components/blog/add post/add-post-validation';
 import { FormProvider, RHFTextField } from '../components/hook-form';
 import AddPostSidebar from '../components/blog/add post/add-post-sidebar';
-import AddPostSidebarCategories from '../components/blog/add post/add-post-sidebar-categories';
 
 
 
@@ -92,7 +86,7 @@ export default function AddNewPost() {
     <Page title="Dashboard: Blog">
 
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-        <Container maxWidth='xl' >
+        <Container  maxWidth='xl' >
           <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
             <Typography variant="h4" gutterBottom>
               Add New Post
@@ -100,9 +94,9 @@ export default function AddNewPost() {
           </Stack>
 
           <Grid justifyContent="space-between" container spacing={2}>
-            <Grid item xs={9} >
+            <Grid style={{backgroundColor:"white"}} item xs={9} >
               <Stack direction={{ xs: 'column', sm: 'column' }} justifyContent="space-between" spacing={3}>
-                <RHFTextField name="firstName" label="Your Post Title" />
+                <RHFTextField name="postTitle" label="Post Title" />
                 <Editor
                   toolbarClassName="rdw-storybook-custom-option"
                   wrapperClassName="rdw-storybook-wapper"
@@ -114,6 +108,7 @@ export default function AddNewPost() {
                     textAlign: { inDropdown: true },
                     link: { inDropdown: false },
                     history: { inDropdown: false },
+                    
                   }}
                 />
               </Stack>
@@ -122,29 +117,8 @@ export default function AddNewPost() {
               <Grid item >
                 <AddPostSidebar />
               </Grid>
-              <Grid item marginTop={2}>
-                <AddPostSidebarCategories />
-              </Grid>
-
             </Grid>
-
           </Grid>
-
-          {/* <Stack mb={5} alignItems="center" justifyContent="space-between">
-            <ReactQuill
-              style={{ height: 600, width: 1300 }}
-              theme="snow"
-
-              placeholder="Type..."
-            />
-          </Stack> */}
-
-          <Stack marginTop={5} mb={5} alignItems="center">
-            <LoadingButton size="large" type="submit" variant="contained" loading={isSubmitting}>
-              Kaydet
-            </LoadingButton>
-          </Stack>
-
         </Container>
       </FormProvider>
 
