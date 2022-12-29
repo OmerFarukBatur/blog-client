@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 // material
-import { Grid, Button, Container, Stack, Typography, TextField } from '@mui/material';
+import { Grid, Button, Container, Stack, Typography } from '@mui/material';
 import { Editor } from "react-draft-wysiwyg";
 import { EditorState } from "draft-js";
-import { convertToHTML, convertFromHTML } from "draft-convert";
+import { convertToHTML } from "draft-convert";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "../assert/css/blog/add-blog.css";
 
@@ -12,11 +12,12 @@ import 'react-quill/dist/quill.snow.css';
 
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { addPost } from '../../contracts/admin-http-service';
 
 // components
 import Page from '../components/common/Page';
 // mock
-import { AddEditorSchema } from '../components/blog/add post/add-post-validation';
+import {AddEditorSchema} from '../components/blog/add post/add-post-validation';
 import { FormProvider, RHFTextField } from '../components/hook-form';
 import AddPostSidebar from '../components/blog/add post/add-post-sidebar';
 
@@ -40,7 +41,7 @@ const SORT_OPTIONS = [
 
 export default function AddNewPost() {
 
-  /* const _uploadCallback = (file, callback) => {
+  const _uploadCallback = (file, callback) => {
     console.log(file);
     return new Promise((resolve, reject) => {
       const reader = new window.FileReader();
@@ -52,42 +53,57 @@ export default function AddNewPost() {
 
         resolve({ data: { link: URL.createObjectURL(file) } });
 
+        /* const res = await uploadFile(form_data);
+        setValue("thumbnail", res.data);
+        resolve({ data: { link: process.env.REACT_APP_API_URL + res.data } }); */
       };
       reader.readAsDataURL(file);
     });
-  }; */
-
-  const [postTextValue, setPostTextValue] = useState(() => EditorState.createEmpty());
-  const [postTitleValue, setPostTitleValue] = useState('');
-
-  const handlePostTitle = (e) => {
-    e.preventDefault();
-    setPostTitleValue(e.target.value);
-
   };
+
+  const [ postTextValue, setPostTextValue ] = useState(() => EditorState.createEmpty()); 
 
   const navigate = useNavigate();
 
-  ;
+  const defaultValues = {
+    postText: ''
+  };
+
+  const methods = useForm({
+    resolver: yupResolver(AddEditorSchema),
+    defaultValues,
+  });
+
+  const {
+    handleSubmit,
+    formState: { isSubmitting },
+  } = methods;
+
+  const onSubmit = async () => {
+    const response = await addPost(methods.getValues());
+    console.log(response);
+    // if (response.status === 200)
+    //   navigate('/login', { replace: true });
+  };
 
 
 
   return (
     <Page title="Dashboard: Blog">
 
+      
+        <Container  maxWidth='xl'>
+          <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+            <Typography variant="h4" gutterBottom>
+              Add New Post
+            </Typography>
+          </Stack>
 
-      <Container maxWidth='xl'>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
-            Add New Post
-          </Typography>
-        </Stack>
-
-        <Grid justifyContent="space-between" container  >
-          
-            <Grid style={{ backgroundColor: "white" }} item xs={9} >
+          <Grid justifyContent="space-between" container  >
+            <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+            <Grid style={{backgroundColor:"white"}} item xs={9} >
               <Stack direction={{ xs: 'column', sm: 'column' }} justifyContent="space-between" >
-                <TextField name="postTitle" label="Post Title" variant='outlined' value={postTitleValue} onChange={handlePostTitle} />
+                <RHFTextField name="postTitle" label="Post Title" />
                 <Editor
                   toolbarClassName="rdw-storybook-custom-option"
                   wrapperClassName="rdw-storybook-wapper"
@@ -95,24 +111,25 @@ export default function AddNewPost() {
                   editorState={postTextValue}
                   onEditorStateChange={setPostTextValue}
                   toolbar={{
+                    image: { uploadCallback: _uploadCallback, },
                     inline: { inDropdown: false },
                     list: { inDropdown: false },
                     textAlign: { inDropdown: true },
                     link: { inDropdown: false },
                     history: { inDropdown: false },
-
+                    
                   }}
                 />
               </Stack>
             </Grid>
-          
-          <Grid item xs={3} >
-            <Grid item >
-              <AddPostSidebar postTitle={postTitleValue} editorData={convertToHTML(postTextValue.getCurrentContent())} />
+            </FormProvider>
+            <Grid item xs={3} >
+              <Grid item >
+                <AddPostSidebar editorData={convertToHTML(postTextValue.getCurrentContent())}  />
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
-      </Container>
+        </Container> 
 
     </Page>
   );

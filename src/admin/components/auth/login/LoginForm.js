@@ -42,11 +42,11 @@ export default function LoginForm() {
     // const Email = methods.getValues("email");
     // const Password = methods.getValues("password");
     // console.log( await userLogin({Email,Password}));
-
+   
     const response = await userLogin(methods.getValues());    
-    if(response.status === 200)
+    if(response.status === 200){
       navigate('/baselayout/home', { replace: true });
-
+    }      
   };
 
   const navigateRegister = function() {
