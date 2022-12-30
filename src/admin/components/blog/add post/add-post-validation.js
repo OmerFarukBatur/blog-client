@@ -7,8 +7,7 @@ const AddEditorSchema = Yup.object().shape({
   const AddConfigurationSchema = Yup.object().shape({
     postStatus: Yup.string().nullable(false),
     visibility: Yup.string().nullable(false),
-    readability: Yup.string().nullable(false),
-    postTitleValue: Yup.string().nullable(false),
+    readability: Yup.string().nullable(false)
 });
 
   const AddNewCategorySchema = Yup.object().shape({

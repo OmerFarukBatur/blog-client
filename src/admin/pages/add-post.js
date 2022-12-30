@@ -63,13 +63,9 @@ export default function AddNewPost() {
   const handlePostTitle = (e) => {
     e.preventDefault();
     setPostTitleValue(e.target.value);
-
   };
 
   const navigate = useNavigate();
-
-  ;
-
 
 
   return (
@@ -87,13 +83,13 @@ export default function AddNewPost() {
           
             <Grid style={{ backgroundColor: "white" }} item xs={9} >
               <Stack direction={{ xs: 'column', sm: 'column' }} justifyContent="space-between" >
-                <TextField name="postTitle" label="Post Title" variant='outlined' value={postTitleValue} onChange={handlePostTitle} />
+                <TextField size='medium' style={{width:1090,marginBottom:10}} name="postTitle" label="Post Title" variant='outlined' value={postTitleValue} onChange={handlePostTitle} />
                 <Editor
                   toolbarClassName="rdw-storybook-custom-option"
                   wrapperClassName="rdw-storybook-wapper"
                   editorClassName="rdw-storybook-editor"
                   editorState={postTextValue}
-                  onEditorStateChange={setPostTextValue}
+                  onEditorStateChange={setPostTextValue}                  
                   toolbar={{
                     inline: { inDropdown: false },
                     list: { inDropdown: false },
@@ -108,7 +104,7 @@ export default function AddNewPost() {
           
           <Grid item xs={3} >
             <Grid item >
-              <AddPostSidebar postTitle={postTitleValue} editorData={convertToHTML(postTextValue.getCurrentContent())} />
+              <AddPostSidebar postTitleValue={postTitleValue} editorData={convertToHTML(postTextValue.getCurrentContent())} />
             </Grid>
           </Grid>
         </Grid>

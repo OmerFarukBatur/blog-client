@@ -29,7 +29,7 @@ import {AddConfigurationSchema,AddNewCategorySchema} from './add-post-validation
 import { FormProvider } from '../../hook-form';
 
 
-export default function AddPostSidebar({postTitlee='',editorData=''}) {
+export default function AddPostSidebar({postTitleValue='',editorData=''}) {
     const navigate = useNavigate();
     
     const [ postStatusValue, setPostStatusValue ] = useState('');
@@ -38,7 +38,7 @@ export default function AddPostSidebar({postTitlee='',editorData=''}) {
     const [ categoryValue, setCategoryValue ] = useState([]);
 
     const defaultValues = {
-        postTitle: postTitlee,
+        postTitle: postTitleValue,
         postText: editorData,
         postStatus: postStatusValue,
         visibility: visibilityValue,
@@ -107,10 +107,7 @@ export default function AddPostSidebar({postTitlee='',editorData=''}) {
   } = methodsNewCategory; */
 
   const onSubmit = async () => {
-    console.log(defaultValues);
-    console.log(methods.getValues());
-    
-    if(methods.formState !== true){
+    if(defaultValues.category.length > 0 && defaultValues.postText.length > 7 && defaultValues.postTitle !== ''){
         const response = await createPost(defaultValues);
         console.log(response);
     }    
@@ -151,7 +148,8 @@ export default function AddPostSidebar({postTitlee='',editorData=''}) {
                                         id='postStatus'
                                         name="postStatus" 
                                         value={postStatusValue}     
-                                        onChange={handlePostStatus}                          
+                                        onChange={handlePostStatus}   
+                                        required                       
                                     >
 
                                         <MenuItem value={'Draft'}>Draft</MenuItem>
@@ -171,7 +169,8 @@ export default function AddPostSidebar({postTitlee='',editorData=''}) {
                                         id="visibility"
                                         name='visibility'
                                         value={visibilityValue}     
-                                        onChange={handleVisibility}  
+                                        onChange={handleVisibility}
+                                        required  
                                     >
 
                                         <MenuItem value="Public">Public</MenuItem>
@@ -192,7 +191,8 @@ export default function AddPostSidebar({postTitlee='',editorData=''}) {
                                         id="readability"
                                         name='readability'
                                         value={readabilityValue}     
-                                        onChange={handleReadability}  
+                                        onChange={handleReadability}
+                                        required  
                                     >
 
                                         <MenuItem value="Ok">Ok</MenuItem>
@@ -225,7 +225,7 @@ export default function AddPostSidebar({postTitlee='',editorData=''}) {
                                         <ul>
 
                                             {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
-                                                <ListItem key={`item-${sectionId}-${item}`}>
+                                                <ListItem key={`item-${sectionId}-${item}`} >
                                                     <ListItemIcon onClick={handleCategory(item)}>
                                                         <Checkbox
                                                             name='category'
