@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
-import { Stack, Button, Grid, Typography, Container, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
+import { Stack, Button, Grid, Typography, Container, Select, MenuItem, InputLabel, FormControl, Fab } from '@mui/material';
 import FlagIcon from '@mui/icons-material/Flag';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
@@ -107,7 +107,21 @@ export default function AddPostSidebar({ postTitleValue = '', editorData = '' })
     const onSubmit = async () => {
         if (defaultValues.category.length > 0 && defaultValues.postText.length > 7 && defaultValues.postTitle !== '') {
             const response = await createPost(defaultValues);
-            console.log(response);
+            if (response.status === 200) {
+                toast("Kayıt işlemi başarıyla gerçekleştirilmiştir.",{
+                    position: 'top-right',
+                    type: 'success',
+                    delay: 5000
+                });
+
+                navigate('/baselayout/blog', { replace: true });
+            }else{
+                toast("Kayıt işlemi sırasında beklenmedik bir hata oluştu..",{
+                    position: 'top-right',
+                    type: 'error',
+                    delay: 5000
+                });
+            }
         }
 
         /* if (response.status === 200)
@@ -134,7 +148,8 @@ export default function AddPostSidebar({ postTitleValue = '', editorData = '' })
             if(response.data.message === 'Kategori başarıyla eklenmiştir.'){
                     toast(response.data.message,{
                     position: 'bottom-right',
-                    type: 'success'
+                    type: 'success',
+                    delay: 1000
                 });
                 await getAllCategories();
             }else{
@@ -179,7 +194,7 @@ export default function AddPostSidebar({ postTitleValue = '', editorData = '' })
                                         >
 
                                             <MenuItem value={'Draft'}>Draft</MenuItem>
-                                            <MenuItem value={'Completed'}>Completed</MenuItem>
+                                            <MenuItem value={'Completed'}>Publish</MenuItem>
                                         </Select>
                                     </FormControl>
                                 </Stack>
@@ -278,18 +293,15 @@ export default function AddPostSidebar({ postTitleValue = '', editorData = '' })
                                     value={newCategoryValue}
                                     onChange={handleNewCategory}
                                     InputProps={{
-                                        endAdornment: <Button onClick={addCategory} size='small' style={{ width: 20, height: 20 }} variant="outlined" color="primary" startIcon={<AddIcon />} />
+                                        endAdornment: <Fab onClick={addCategory} size='small' variant="outlined" color="primary"  ><AddIcon/> </ Fab>
                                     }}
                                 />
                             </Grid>
-                            <Grid container item xs={2} >
-                                <Stack direction={{ xs: 'row', sm: 'row' }} spacing={4}>
-                                    <Button type='submit' variant="outlined" color="primary" startIcon={<SaveIcon />}>
-                                        Save Draft
-                                    </Button>
-                                    <Button variant="contained" color="primary" startIcon={<FileCopyIcon />}>
-                                        Publish
-                                    </Button>
+                            <Grid item  >
+                                <Stack style={{ alignItems:'center'}} spacing={4}>
+                                    <Button type='submit' variant="outlined" color="primary" size='large' style={{width:240}} startIcon={<SaveIcon />}>
+                                        Save
+                                    </Button>                                    
                                 </Stack>
                             </Grid>
 

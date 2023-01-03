@@ -7,6 +7,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Stack, IconButton, InputAdornment } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import { userRegister } from '../../../../contracts/admin-http-service';
 // components
 import Iconify from '../../common/Iconify';
@@ -15,6 +18,8 @@ import RegisterSchema from './register-validation';
 
 
 // ----------------------------------------------------------------------
+
+
 
 export default function RegisterForm() {
   const navigate = useNavigate();
@@ -42,8 +47,20 @@ export default function RegisterForm() {
 
   const onSubmit = async () => {
     const response = await userRegister(methods.getValues());
-    if (response.status === 200)
+    if (response.status === 200) {
+      toast("Kayıt işlemi başarıyla gerçekleştirilmiştir.", {
+        position: 'bottom-right',
+        type: 'success',
+        delay: 1000
+      });
       navigate('/login', { replace: true });
+    }else{
+      toast("Kayıt işlemi sırasında beklenmedik bir hata oluştu!", {
+        position: 'bottom-right',
+        type: 'error',
+        delay: 1000
+      });
+    }
   };
 
   return (
@@ -89,6 +106,9 @@ export default function RegisterForm() {
         <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
           Kayıt Ol
         </LoadingButton>
+
+        <ToastContainer />
+
       </Stack>
     </FormProvider>
   );

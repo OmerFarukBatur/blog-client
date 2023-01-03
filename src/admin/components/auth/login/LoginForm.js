@@ -8,6 +8,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Link, Stack, IconButton, InputAdornment } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import { userLogin } from '../../../../contracts/admin-http-service';
 // components
 import Iconify from '../../common/Iconify';
@@ -44,8 +47,19 @@ export default function LoginForm() {
     // console.log( await userLogin({Email,Password}));
    
     const response = await userLogin(methods.getValues());    
-    if(response.status === 200){
+    if(response.data.message === true){
+      toast("Giriş Başarılı", {
+        position: 'bottom-right',
+        type: 'success',
+        delay: 1000
+      });
       navigate('/baselayout/home', { replace: true });
+    }else{
+      toast("Email veya şifre hatalı", {
+        position: 'bottom-right',
+        type: 'error',
+        delay: 1000
+      });
     }      
   };
 
@@ -78,6 +92,7 @@ export default function LoginForm() {
             ),
           }}
         />
+        <ToastContainer />
       </Stack>
 
       <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
@@ -92,6 +107,9 @@ export default function LoginForm() {
       <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting} >
         Giriş Yap
       </LoadingButton>
+
+      
+
     </FormProvider>
   );
 }
