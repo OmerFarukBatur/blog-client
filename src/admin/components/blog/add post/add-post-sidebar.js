@@ -9,7 +9,7 @@ import { Stack, Button, Grid, Typography, Container, Select, MenuItem, InputLabe
 import {Flag, Visibility, AutoStories, Save, Add, Category} from '@mui/icons-material';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { createCategory, createPost, getAllCategory } from '../../../../contracts/admin-http-service';
+import { createCategory, createPost, getAllCategory, getAllPost } from '../../../../contracts/admin-http-service';
 import AddConfigurationSchema from './add-post-validation';
 import { FormProvider } from '../../hook-form';
 
@@ -84,16 +84,15 @@ export default function AddPostSidebar({ postTitleValue = '', editorData = '' })
         if (defaultValues.postText.length > 7 && defaultValues.postTitle !== '') {
             const response = await createPost(defaultValues);
             if (response.status === 200) {
-                toast("Kayıt işlemi başarıyla gerçekleştirilmiştir.", {
-                    position: 'top-right',
+                toast(response.data.message, {
+                    position: 'bottom-right',
                     type: 'success',
                     delay: 5000
                 });
-
                 navigate('/baselayout/blog', { replace: true });
             } else {
-                toast("Kayıt işlemi sırasında beklenmedik bir hata oluştu..", {
-                    position: 'top-right',
+                toast(response.data.message, {
+                    position: 'bottom-right',
                     type: 'error',
                     delay: 5000
                 });

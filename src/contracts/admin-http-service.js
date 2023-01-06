@@ -26,3 +26,8 @@ export const getAllCategory = async function() {
     const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/Categories/get-all-category`);     
     return response;    
 }
+
+export const getAllPost = async function() {
+    const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/Posts/get-all-post`);     
+    return response;    
+}
