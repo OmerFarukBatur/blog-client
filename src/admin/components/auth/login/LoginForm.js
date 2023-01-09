@@ -41,11 +41,7 @@ export default function LoginForm() {
   } = methods;
 
   
-  const onSubmit = async () => {
-    // const Email = methods.getValues("email");
-    // const Password = methods.getValues("password");
-    // console.log( await userLogin({Email,Password}));
-   
+  const onSubmit = async () => {   
     const response = await userLogin(methods.getValues());    
     if(response.data.message === true){
       toast("Giriş Başarılı", {

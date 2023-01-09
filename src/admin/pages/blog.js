@@ -1,7 +1,10 @@
+import { useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+
 // material
 import { Grid, Button, Container, Stack, Typography } from '@mui/material';
 // components
+import { getAllPost } from '../../contracts/admin-http-service';
 import Page from '../components/common/Page';
 import Iconify from '../components/common/Iconify';
 import { BlogPostCard, BlogPostsSort, BlogPostsSearch } from '../components/blog';
@@ -18,7 +21,22 @@ const SORT_OPTIONS = [
 
 // ----------------------------------------------------------------------
 
+
+
+
+
 export default function BlogPost() {
+  const [postsValue, setPostsValue] = useState([]);
+  let datas = [];
+  useEffect(() => {
+    getAllPosts();
+  }, []);
+
+  const getAllPosts = async () => {
+    datas = await getAllPost();
+    setPostsValue(datas.data.posts);
+    console.log(datas.data.posts);
+  }
   return (
     <Page title="Dashboard: Blog">
       <Container>

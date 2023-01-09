@@ -5,13 +5,15 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
-import { Stack, Button, Grid, Typography, Container, Select, MenuItem, InputLabel, FormControl, Fab, Chip, Card, CardContent, CardHeader, TextField,  } from '@mui/material';
+import { Stack, Grid, Typography, Container, Select, MenuItem, InputLabel, FormControl, Fab, Chip, Card, CardContent, CardHeader, TextField  } from '@mui/material';
 import {Flag, Visibility, AutoStories, Save, Add, Category} from '@mui/icons-material';
+import { LoadingButton } from '@mui/lab';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { createCategory, createPost, getAllCategory, getAllPost } from '../../../../contracts/admin-http-service';
+import { createCategory, createPost, getAllCategory } from '../../../../contracts/admin-http-service';
 import AddConfigurationSchema from './add-post-validation';
 import { FormProvider } from '../../hook-form';
+
 
 export default function AddPostSidebar({ postTitleValue = '', editorData = '' }) {
     const navigate = useNavigate();
@@ -87,14 +89,14 @@ export default function AddPostSidebar({ postTitleValue = '', editorData = '' })
                 toast(response.data.message, {
                     position: 'bottom-right',
                     type: 'success',
-                    delay: 5000
+                    delay: 1000
                 });
                 navigate('/baselayout/blog', { replace: true });
             } else {
                 toast(response.data.message, {
                     position: 'bottom-right',
                     type: 'error',
-                    delay: 5000
+                    delay: 1000
                 });
             }
         }
@@ -103,13 +105,12 @@ export default function AddPostSidebar({ postTitleValue = '', editorData = '' })
     let datas = [];
 
     useEffect(() => {
-        getAllCategories();
-
+        getAllCategories(); 
     }, []);
 
     const getAllCategories = async () => {
         datas = await getAllCategory();
-        setCategoriesValue(datas.data.categories);
+        setCategoriesValue(datas.data.categories);           
     }
 
 
@@ -256,9 +257,9 @@ export default function AddPostSidebar({ postTitleValue = '', editorData = '' })
                             </Grid>
                             <Grid item  >
                                 <Stack style={{ alignItems: 'center' }} spacing={4}>
-                                    <Button type='submit' variant="outlined" color="primary" size='large' style={{ width: 240 }} startIcon={<Save />}>
+                                    <LoadingButton type='submit' variant="outlined" color="primary" size='large' style={{ width: 240 }} startIcon={<Save />} loading={isSubmittingConfiguration}>
                                         Save
-                                    </Button>
+                                    </LoadingButton>
                                 </Stack>
                             </Grid>
 
