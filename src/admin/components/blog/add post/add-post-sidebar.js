@@ -5,14 +5,33 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
-import { Stack, Grid, Typography, Container, Select, MenuItem, InputLabel, FormControl, Fab, Chip, Card, CardContent, CardHeader, TextField  } from '@mui/material';
-import {Flag, Visibility, AutoStories, Save, Add, Category} from '@mui/icons-material';
+import { Stack, Grid, Typography, Container, Select, MenuItem, InputLabel, FormControl, Fab, Chip, Card, CardContent, CardHeader, TextField } from '@mui/material';
+import { Flag, Visibility, AutoStories, Save, Add, Category } from '@mui/icons-material';
 import { LoadingButton } from '@mui/lab';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+// Import React FilePond
+import { FilePond, File, registerPlugin } from 'react-filepond'
+
+// Import FilePond styles
+import 'filepond/dist/filepond.min.css'
+
+// Import the Image EXIF Orientation and Image Preview plugins
+// Note: These need to be installed separately
+// `npm i filepond-plugin-image-preview filepond-plugin-image-exif-orientation --save`
+import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation'
+import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
+import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css'
+
 import { createCategory, createPost, getAllCategory } from '../../../../contracts/admin-http-service';
 import AddConfigurationSchema from './add-post-validation';
 import { FormProvider } from '../../hook-form';
+
+// Register the plugins
+registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview)
+
+
 
 
 export default function AddPostSidebar({ postTitleValue = '', editorData = '' }) {
@@ -26,6 +45,8 @@ export default function AddPostSidebar({ postTitleValue = '', editorData = '' })
     const [newCategoryValue, setNewCategoryValue] = useState('');
 
     const [categoriesValues, setCategoriesValue] = useState([]);
+
+    const [files, setFiles] = useState([])
 
     const defaultValues = {
         postTitle: postTitleValue,
@@ -55,14 +76,14 @@ export default function AddPostSidebar({ postTitleValue = '', editorData = '' })
         defaultValues.readability = e.target.value;
         e.preventDefault();
         setReadabilityValue(e.target.value);
-
+        console.log(files);
     };
 
     const handleCategory = (e) => {
         defaultValues.category = e.target.value;
         e.preventDefault();
         setCategoryValue(e.target.value);
-
+        
     };
 
     const handleNewCategory = (e) => {
@@ -105,12 +126,12 @@ export default function AddPostSidebar({ postTitleValue = '', editorData = '' })
     let datas = [];
 
     useEffect(() => {
-        getAllCategories(); 
+        getAllCategories();
     }, []);
 
     const getAllCategories = async () => {
         datas = await getAllCategory();
-        setCategoriesValue(datas.data.categories);           
+        setCategoriesValue(datas.data.categories);
     }
 
 
@@ -253,6 +274,16 @@ export default function AddPostSidebar({ postTitleValue = '', editorData = '' })
                                     InputProps={{
                                         endAdornment: <Fab onClick={addCategory} size='small' variant="outlined" color="primary"  ><Add /> </ Fab>
                                     }}
+                                />
+                            </Grid>
+                            <Grid item>
+                                <FilePond
+                                    files={files}
+                                    allowMultiple
+                                    onupdatefiles={setFiles}
+                                    labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
+                                    acceptedFileTypes="image/*"
+                                    
                                 />
                             </Grid>
                             <Grid item  >
