@@ -6,30 +6,17 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
 import { Stack, Grid, Typography, Container, Select, MenuItem, InputLabel, FormControl, Fab, Chip, Card, CardContent, CardHeader, TextField } from '@mui/material';
-import { Flag, Visibility, AutoStories, Save, Add, Category } from '@mui/icons-material';
+import { Flag, Visibility, AutoStories, Save, Add, Category, UploadFile } from '@mui/icons-material';
 import { LoadingButton } from '@mui/lab';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-// Import React FilePond
-import { FilePond, File, registerPlugin } from 'react-filepond'
-
-// Import FilePond styles
-import 'filepond/dist/filepond.min.css'
-
-// Import the Image EXIF Orientation and Image Preview plugins
-// Note: These need to be installed separately
-// `npm i filepond-plugin-image-preview filepond-plugin-image-exif-orientation --save`
-import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation'
-import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
-import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css'
+import FileUpload from 'react-mui-fileuploader';
 
 import { createCategory, createPost, getAllCategory } from '../../../../contracts/admin-http-service';
 import AddConfigurationSchema from './add-post-validation';
 import { FormProvider } from '../../hook-form';
 
-// Register the plugins
-registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview)
 
 
 
@@ -46,7 +33,7 @@ export default function AddPostSidebar({ postTitleValue = '', editorData = '' })
 
     const [categoriesValues, setCategoriesValue] = useState([]);
 
-    const [files, setFiles] = useState([])
+    const [filesValue, setFilesValue] = useState([]);
 
     const defaultValues = {
         postTitle: postTitleValue,
@@ -76,19 +63,26 @@ export default function AddPostSidebar({ postTitleValue = '', editorData = '' })
         defaultValues.readability = e.target.value;
         e.preventDefault();
         setReadabilityValue(e.target.value);
-        console.log(files);
     };
 
     const handleCategory = (e) => {
         defaultValues.category = e.target.value;
         e.preventDefault();
         setCategoryValue(e.target.value);
-        
+
     };
 
     const handleNewCategory = (e) => {
         e.preventDefault();
         setNewCategoryValue(e.target.value);
+    };
+
+    const handleFilesChange = (files) => {
+        // Update chosen files
+
+        setFilesValue([...files]);
+        console.log(filesValue);
+        uploadFiles();
     };
 
 
@@ -155,6 +149,19 @@ export default function AddPostSidebar({ postTitleValue = '', editorData = '' })
             }
 
         }
+    }
+
+    const uploadFiles = () => {
+        const reader = new FileReader();
+        const formData = new FormData();
+        filesValue.forEach((file) => {
+            formData.append("files", file);
+            
+            reader.readAsDataURL(file)
+           
+        });
+        console.log(formData.values());
+        console.log(reader);
     }
 
 
@@ -277,14 +284,7 @@ export default function AddPostSidebar({ postTitleValue = '', editorData = '' })
                                 />
                             </Grid>
                             <Grid item>
-                                <FilePond
-                                    files={files}
-                                    allowMultiple
-                                    onupdatefiles={setFiles}
-                                    labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
-                                    acceptedFileTypes="image/*"
-                                    
-                                />
+                                <FileUpload value={filesValue} onFilesChange={handleFilesChange} onContextReady={(context) => { }} acceptedType={'image/*'} allowedExtensions={['png', 'jpg', 'jpeg']}  > </FileUpload>
                             </Grid>
                             <Grid item  >
                                 <Stack style={{ alignItems: 'center' }} spacing={4}>
