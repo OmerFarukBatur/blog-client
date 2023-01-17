@@ -78,11 +78,7 @@ export default function AddPostSidebar({ postTitleValue = '', editorData = '' })
     };
 
     const handleFilesChange = (files) => {
-        // Update chosen files
-
         setFilesValue([...files]);
-        console.log(filesValue);
-        uploadFiles();
     };
 
 
@@ -98,7 +94,7 @@ export default function AddPostSidebar({ postTitleValue = '', editorData = '' })
 
 
     const onSubmit = async () => {
-        if (defaultValues.postText.length > 7 && defaultValues.postTitle !== '') {
+        if (defaultValues.postText.length > 7 && defaultValues.postTitle !== '' && filesValue.length > 0) {
             const response = await createPost(defaultValues);
             if (response.status === 200) {
                 toast(response.data.message, {
@@ -149,19 +145,6 @@ export default function AddPostSidebar({ postTitleValue = '', editorData = '' })
             }
 
         }
-    }
-
-    const uploadFiles = () => {
-        const reader = new FileReader();
-        const formData = new FormData();
-        filesValue.forEach((file) => {
-            formData.append("files", file);
-            
-            reader.readAsDataURL(file)
-           
-        });
-        console.log(formData.values());
-        console.log(reader);
     }
 
 
@@ -284,7 +267,7 @@ export default function AddPostSidebar({ postTitleValue = '', editorData = '' })
                                 />
                             </Grid>
                             <Grid item>
-                                <FileUpload value={filesValue} onFilesChange={handleFilesChange} onContextReady={(context) => { }} acceptedType={'image/*'} allowedExtensions={['png', 'jpg', 'jpeg']}  > </FileUpload>
+                                <FileUpload imageSrc={'../../../assert/image/blogdefault.png'} value={filesValue} onFilesChange={handleFilesChange} acceptedType={'image/*'} allowedExtensions={['png', 'jpg', 'jpeg']}  > </FileUpload>
                             </Grid>
                             <Grid item  >
                                 <Stack style={{ alignItems: 'center' }} spacing={4}>

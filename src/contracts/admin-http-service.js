@@ -31,3 +31,13 @@ export const getAllPost = async function() {
     const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/Posts/get-all-post`);     
     return response;    
 }
+
+export const uploadImages = async function() {
+    const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/Posts/upload-post-image`);     
+    return response;    
+}
+
+export const uploadOtherFiles = async function() {
+    const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/Posts/upload-post-image`);     
+    return response;    
+}
